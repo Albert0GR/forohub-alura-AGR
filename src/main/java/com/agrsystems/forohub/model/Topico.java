@@ -2,19 +2,17 @@ package com.agrsystems.forohub.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter         //CREA TODOS LOS GETTERS
+@NoArgsConstructor  //CREA UN CONSTRUCTOR SIN ARGUMENTOS
+@AllArgsConstructor //CONSTRUCTOR CON ARGUMENTOS
 public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +20,7 @@ public class Topico {
 
     private String titulo;
     private String mensaje;
+    @CreationTimestamp
     private LocalDateTime fechaCreacion;
     private String status;
 

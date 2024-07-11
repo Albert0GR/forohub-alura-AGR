@@ -1,9 +1,13 @@
 package com.agrsystems.forohub.controller;
 
+import com.agrsystems.forohub.dto.DatosListadoTopico;
 import com.agrsystems.forohub.model.Topico;
 import com.agrsystems.forohub.repository.TopicoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +25,7 @@ public class TopicoController {
     }
 
     @GetMapping
-    public List<Topico> listarTopicos() {
-        return topicoRepository.findAll();
+    public Page<DatosListadoTopico> listarTopicos(@PageableDefault(size = 10,sort="fechaCreacion") Pageable paginacion) {
+        return topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
     }
 }
