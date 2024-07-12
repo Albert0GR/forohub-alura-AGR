@@ -1,5 +1,6 @@
 package com.agrsystems.forohub.model;
 
+import com.agrsystems.forohub.dto.topico.DatosActualizarTopico;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -34,4 +35,13 @@ public class Topico {
 
     @OneToMany(mappedBy = "topico")
     private List<Respuesta> respuestas;
+
+    public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
+        if (datosActualizarTopico.titulo() != null){
+            this.titulo = datosActualizarTopico.titulo();
+        }
+        if (datosActualizarTopico.mensaje() != null){
+            this.mensaje = datosActualizarTopico.mensaje();
+        }
+    }
 }
