@@ -1,4 +1,4 @@
-package com.agrsystems.forohub.dto;
+package com.agrsystems.forohub.dto.topico;
 
 
 
@@ -12,13 +12,17 @@ public record DatosListadoTopico(
         String titulo,
         String mensaje,
         LocalDateTime fechaCreacion,
-        String status) {
+        String status,
+        String autorNombre,
+        String cursoNombre) {
 
     public DatosListadoTopico(Topico topico){
         this(topico.getId(),
                 topico.getTitulo(),
                 topico.getMensaje(),
                 topico.getFechaCreacion(),
-                topico.getStatus());
+                topico.getStatus(),
+                topico.getAutor().getNombre(),
+                topico.getCurso().getNombre());
     }
 }

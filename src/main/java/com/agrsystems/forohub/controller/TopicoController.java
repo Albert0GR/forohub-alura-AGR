@@ -1,6 +1,7 @@
 package com.agrsystems.forohub.controller;
 
-import com.agrsystems.forohub.dto.DatosListadoTopico;
+import com.agrsystems.forohub.dto.topico.DatosListadoTopico;
+import com.agrsystems.forohub.dto.topico.DatosListadoTopico;
 import com.agrsystems.forohub.model.Topico;
 import com.agrsystems.forohub.repository.TopicoRepository;
 import jakarta.validation.Valid;
