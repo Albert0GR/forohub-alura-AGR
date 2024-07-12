@@ -64,9 +64,14 @@ public class TopicoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void eliminarTopico(@PathVariable Long id){
-        Topico topico = topicoRepository.getReferenceById(id);
-        topicoRepository.delete(topico);
+    public ResponseEntity<?> eliminarTopico(@PathVariable Long id) {
+        Optional<Topico> optionalTopico = topicoRepository.findById(id);
+        if (optionalTopico.isPresent()) {
+            topicoRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Topico no encontrado");
+        }
     }
 
 
