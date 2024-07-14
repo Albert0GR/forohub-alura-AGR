@@ -1,6 +1,7 @@
 package com.agrsystems.forohub.controller;
 
 import com.agrsystems.forohub.dto.usuario.DatosAutenticacionUsuario;
+import com.agrsystems.forohub.infra.security.DatosJWTtoken;
 import com.agrsystems.forohub.infra.security.TokenService;
 import com.agrsystems.forohub.model.Usuario;
 import jakarta.validation.Valid;
@@ -29,8 +30,8 @@ public class AutenticacionController {
                 datosAutenticacionUsuario.contrasena());
         var usuarioAutenticado =authenticationManager.authenticate(authToken);
         var JWTtoken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
-        //return ResponseEntity.ok(new DatosJWTtoken(JWTtoken));
-        return ResponseEntity.ok(JWTtoken);
+        return ResponseEntity.ok(new DatosJWTtoken(JWTtoken));
+
     }
 
 }
