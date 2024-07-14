@@ -36,6 +36,11 @@ public class TopicoController {
     @Autowired
     private CursoRepository cursoRepository;
 
+//    @PostMapping
+//    public Topico crearTopico(@Valid @RequestBody Topico topico) {
+//        return topicoRepository.save(topico);
+//    }
+
     @PostMapping
     public Topico crearTopico(@Valid @RequestBody Topico topico) {
         return topicoRepository.save(topico);
@@ -69,7 +74,13 @@ public class TopicoController {
            Topico topico = optionalTopico.get();
            topico.actualizarDatos(datosActualizarTopico);
            topicoRepository.save(topico);
-           return ResponseEntity.ok().build();
+           return ResponseEntity.ok( new DatosListadoTopico(topico.getId(),
+                   topico.getTitulo(),
+                   topico.getMensaje(),
+                   topico.getFechaCreacion(),
+                   topico.getStatus(),
+                   topico.getAutor().getNombre(),
+                   topico.getCurso().getNombre()));
        } else {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Topico no encontrado");
        }
@@ -81,7 +92,7 @@ public class TopicoController {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
         if (optionalTopico.isPresent()) {
             topicoRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Topico no encontrado");
         }
