@@ -2,23 +2,21 @@ package com.agrsystems.forohub.dto.topico;
 
 
 
+import com.agrsystems.forohub.dto.curso.DatosCurso;
+import com.agrsystems.forohub.dto.curso.DatosListadoCurso;
+import com.agrsystems.forohub.dto.usuario.DatosUsuario;
 import com.agrsystems.forohub.model.Topico;
 
 import java.time.LocalDateTime;
 
 public record DatosRegistroTopico(
 
-        Long id,
         String titulo,
         String mensaje,
-        LocalDateTime fechaCreacion,
-        String status) {
+        String status,
+        DatosCurso curso,
+        DatosUsuario nombre
+        ) {
 
-    public DatosRegistroTopico(Topico topico){
-        this(topico.getId(),
-                topico.getTitulo(),
-                topico.getMensaje(),
-                topico.getFechaCreacion(),
-                topico.getStatus());
-    }
+
 }
