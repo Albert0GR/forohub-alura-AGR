@@ -1,6 +1,7 @@
 package com.agrsystems.forohub.controller;
 
 import com.agrsystems.forohub.dto.usuario.DatosAutenticacionUsuario;
+import com.agrsystems.forohub.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class AutenticacionController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    //@Autowired
-    //private TokenService tokenService;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario) {
@@ -29,7 +30,8 @@ public class AutenticacionController {
         //var JWTtoken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
         //return ResponseEntity.ok(new DatosJWTtoken(JWTtoken));
         authenticationManager.authenticate(authToken);
-        return ResponseEntity.ok().build();
+        var JWTtoken = tokenService.generarToken();
+        return ResponseEntity.ok(JWTtoken);
     }
 
 }
