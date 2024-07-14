@@ -1,8 +1,6 @@
 package com.agrsystems.forohub.controller;
 
-import com.agrsystems.forohub.dto.topico.DatosActualizarTopico;
-import com.agrsystems.forohub.dto.topico.DatosDetalleTopico;
-import com.agrsystems.forohub.dto.topico.DatosListadoTopico;
+import com.agrsystems.forohub.dto.topico.*;
 import com.agrsystems.forohub.dto.topico.DatosListadoTopico;
 import com.agrsystems.forohub.model.Curso;
 import com.agrsystems.forohub.model.Topico;
@@ -19,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +41,49 @@ public class TopicoController {
 //        return topicoRepository.save(topico);
 //    }
 
+
+    /*@PostMapping
+    public ResponseEntity<DatosListadoTopico> crearTopico(@Valid @RequestBody Topico topico,
+                                                          UriComponentsBuilder uriComponentsBuilder) {
+            topicoRepository.save(topico);
+            DatosListadoTopico datosListadoTopico = new DatosListadoTopico(
+                    topico.getId(),
+                    topico.getTitulo(),
+                    topico.getMensaje(),
+                    topico.getFechaCreacion(),
+                    topico.getStatus(),
+                    topico.getAutor().getNombre(),
+                    topico.getCurso().getNombre());
+            URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(topico.getId()).toUri();
+            return ResponseEntity.created(url).body(datosListadoTopico);
+
+    }*/
+
     @PostMapping
-    public Topico crearTopico(@Valid @RequestBody Topico topico) {
-        return topicoRepository.save(topico);
+    public ResponseEntity<DatosListadoTopico> crearTopico(@Valid @RequestBody Topico topico,
+                                                          UriComponentsBuilder uriComponentsBuilder) {
+        // Asegurarse de que el autor y el curso estén completamente cargados
+        Usuario autor = usuarioRepository.findById(topico.getAutor().getId()).orElseThrow(() -> new RuntimeException("Autor no encontrado"));
+        Curso curso = cursoRepository.findById(topico.getCurso().getId()).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+
+        topico.setAutor(autor);
+        topico.setCurso(curso);
+
+        topicoRepository.save(topico);
+
+        DatosListadoTopico datosListadoTopico = new DatosListadoTopico(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getFechaCreacion(),
+                topico.getStatus(),
+                topico.getAutor().getNombre(),
+                topico.getCurso().getNombre()
+        );
+        URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(url).body(datosListadoTopico);
     }
+
 
     @GetMapping
     public Page<DatosListadoTopico> listarTopicos(@PageableDefault(size = 30,sort="fechaCreacion") Pageable paginacion) {
@@ -74,7 +113,8 @@ public class TopicoController {
            Topico topico = optionalTopico.get();
            topico.actualizarDatos(datosActualizarTopico);
            topicoRepository.save(topico);
-           return ResponseEntity.ok( new DatosListadoTopico(topico.getId(),
+           return ResponseEntity.ok( new DatosListadoTopico(
+                   topico.getId(),
                    topico.getTitulo(),
                    topico.getMensaje(),
                    topico.getFechaCreacion(),
