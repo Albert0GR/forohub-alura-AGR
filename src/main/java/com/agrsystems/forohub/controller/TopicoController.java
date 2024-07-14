@@ -86,12 +86,13 @@ public class TopicoController {
 
 
     @GetMapping
-    public Page<DatosListadoTopico> listarTopicos(@PageableDefault(size = 30,sort="fechaCreacion") Pageable paginacion) {
-        return topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
+    public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(@PageableDefault(size = 30,sort="fechaCreacion") Pageable paginacion) {
+        return ResponseEntity.ok(topicoRepository.findAll(paginacion).map(DatosListadoTopico::new));
     }
 
+    //retorna los datos de un endPoint en especifico
     @GetMapping("/{id}")
-    public ResponseEntity<?> detalleTopico(@PathVariable Long id) {
+    public ResponseEntity<?> retornaDatosTopico(@PathVariable Long id) {
         Optional<Topico> topicoOpt = topicoRepository.findById(id);
         if (topicoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tópico no encontrado");
