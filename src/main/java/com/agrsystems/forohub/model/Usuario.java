@@ -2,12 +2,20 @@ package com.agrsystems.forohub.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
+
+@Table(name = "usuario")
+@Entity(name = "Usuario")
 @Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

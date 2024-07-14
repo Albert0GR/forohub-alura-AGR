@@ -1,4 +1,4 @@
-package com.agrsystems.forohub.infra;
+package com.agrsystems.forohub.infra.errores;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
