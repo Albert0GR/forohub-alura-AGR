@@ -69,6 +69,11 @@ public class TopicoController {
         topico.setAutor(autor);
         topico.setCurso(curso);
 
+        // Verificar si ya existe un tópico con el mismo título y mensaje
+        if (topicoRepository.existsByTituloOrMensaje(topico.getTitulo(), topico.getMensaje())) {
+            // Si ya existe, devolver una respuesta de conflicto (409)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         topicoRepository.save(topico);
 
         DatosListadoTopico datosListadoTopico = new DatosListadoTopico(
@@ -86,7 +91,7 @@ public class TopicoController {
 
 
     @GetMapping
-    public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(@PageableDefault(size = 30,sort="fechaCreacion") Pageable paginacion) {
+    public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(@PageableDefault(size = 10,sort="fechaCreacion") Pageable paginacion) {
         return ResponseEntity.ok(topicoRepository.findAll(paginacion).map(DatosListadoTopico::new));
     }
 
