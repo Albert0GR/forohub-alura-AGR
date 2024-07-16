@@ -5,6 +5,7 @@ import com.agrsystems.forohub.dto.topico.DatosListadoTopico;
 import com.agrsystems.forohub.dto.curso.DatosListadoCurso;
 import com.agrsystems.forohub.model.Curso;
 import com.agrsystems.forohub.repository.CursoRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cursos")
+@SecurityRequirement(name = "bearer-key")
 public class CursoController {
 
     @Autowired

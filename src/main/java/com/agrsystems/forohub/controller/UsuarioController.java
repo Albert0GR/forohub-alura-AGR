@@ -3,6 +3,7 @@ package com.agrsystems.forohub.controller;
 import com.agrsystems.forohub.dto.usuario.DatosListadoUsuario;
 import com.agrsystems.forohub.model.Usuario;
 import com.agrsystems.forohub.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     @Autowired
